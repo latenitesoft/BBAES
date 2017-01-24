@@ -80,7 +80,10 @@ NSUInteger const BBAESSaltDefaultLength = 16; //recommandations suggest at least
 
 + (NSData *)randomDataWithLength:(NSUInteger)length {
 	NSMutableData *data = [NSMutableData dataWithLength:length];
-    SecRandomCopyBytes(kSecRandomDefault, length, data.mutableBytes);
+    if ( 0 != SecRandomCopyBytes(kSecRandomDefault, length, data.mutableBytes) ) {
+        NSLog( @"Could not generate random data!" );
+        data = nil;
+    }
     return data;
 }
 
